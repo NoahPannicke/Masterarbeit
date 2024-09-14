@@ -2,8 +2,6 @@
 # Description: Configuration for the model and list creation scripts
 #
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Authors: Marius Lux and Patrick Lehmann, Team: Data Analytics
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 options(download.file.method="wininet")
 Sys.setenv(NLS_LANG="German") # to enable the db connection to use umlaute
 rm(list = ls()) 
@@ -36,7 +34,7 @@ if(exists("keep_list")){
 }
 
 ## load packages and functions
-source("Funktionen/packages.R", encoding = "UTF-8")
+source("Funktionen/packages_ma.R", encoding = "UTF-8")
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Parameters 0: Most important parameters like Target or Stichtag ----
@@ -74,7 +72,7 @@ rd_train         <- c(-6)
 
 ## Variable selection
 ## ATTENTION: If no selection is wanted, set NULL
-sel_path <- "Metadaten/features/features_prodaffi_ba_top_50.csv"
+sel_path <- "Metadaten/features/features_prodaffi_ba_top_37.csv"
 
 ## Laenge des Beobachtungszeitraums fuer die Features
 beo_intervall    <- "36M"
@@ -82,7 +80,7 @@ beo_intervall    <- "36M"
 ## Aus welcher DB-Tabelle sollen die Daten geladen werden?
 ## NULL -> Daten werden aus SE_FEATURES_B{beo_intervall} geladen
 ## Wenn der Wert nicht NULL ist, muss er auf eine existierende Tabelle in der DB
-## gesetzt werden, z. B. CHURN_FINAL
+## gesetzt werden
 data_mode <- 'SE_FEATURES_GLOBAL'
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +96,7 @@ save_dataset <- F
 
 # load existing snapshot 
 load_existing_snap <- T
-snap_path          <- "snapshots/20240530_210422"
+snap_path          
 
 ## path for special training data (csv, xlsx, sql-statement)
 ## if not in use, set to NULL!!!
@@ -149,7 +147,7 @@ always_excl <- c("DVER_GEOMARKET",
 
 ## Meta hyperparamters not depending on algorithm
 hp_list_meta       <- list(sampling_ratio   = c(0), # Note: for 0 no sampling is done
-                           do_weighting     = c(FALSE) # If TRUE, w_churn = (1-p_churn)/p_churn
+                           do_weighting     = c(FALSE) 
 )
 
 ## XGBoost hyperparameters
@@ -197,15 +195,15 @@ au_bl      <- c("BAW", "BAY", "BRE", "HES", "HH", "NDS",
 
 # Begrenzung auf das maximale Alter von Versicherten im Datensatz 
 # um Performance im Prozess zu erhöhen
-max_alter <- 75
+max_alter <- 70
 
 ## Note: If vartklasse is NULL the subset FVER_VERSSTATUS_BEZ %in% "Mitglieder"
-train_subset_list <- list(age_min = 15, age_max = 75,
+train_subset_list <- list(age_min = 15, age_max = 70,
                           vartklasse = NULL, #c("AKV"), #c("Fami"),
                           bundesland = no_bl,
                           dauer_min = 0, dauer_max = Inf)
 
-test_subset_list  <- list(age_min = 15, age_max = 75,
+test_subset_list  <- list(age_min = 15, age_max = 70,
                           vartklasse = NULL, #c("AKV"), #c("Fami"),
                           bundesland = no_bl,
                           dauer_min = 0, dauer_max = Inf)
@@ -217,10 +215,7 @@ test_subset_list  <- list(age_min = 15, age_max = 75,
 log_info("Finished loading the configuration")
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Description: Train, tune and test models to predict churn
-#
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Authors: Marius Lux and Patrick Lehmann, Team: Data Analytics
+# Description: Train, tune and test models to predict 
 #
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -837,9 +832,6 @@ data <- data.frame(
   mean_Lift10 = c(4.465856, 4.438571, 4.459729, 4.427328)
 )
 
-# CSV-Datei speichern
-#write.csv(data, "Hyperparameter_Combinations.csv", row.names = FALSE)
-
 ## Leistungsvergleich Algorithmen ----
 # Daten laden
 data <- data.frame(
@@ -978,9 +970,6 @@ mean(test_data_iter[DVER_PID %in% xgb_top$dver,DGEO_KFZ_GES_RAT])
 mean(test_data_iter[DVER_PID %in% svm_top$dver,DGEO_KFZ_GES_RAT])
 mean(test_data_iter[DVER_PID %in% nn_top$dver,DGEO_KFZ_GES_RAT])
 mean(test_data_iter[DVER_PID %in% rf_top$dver,DGEO_KFZ_GES_RAT])
-
-test_data_iter <- 
-  fread("scoing_engine/daten_richtig/snapshot_se_features_global_2023-06_reduced.csv")
 
 
 test_data_iter[DARB_ORT != 'Berlin', DARB_ORT := 'Nicht Berlin']
