@@ -4,7 +4,7 @@ Enthält alle Skripte die zur Umsetzung der Masterarbeit mit dem Titel "Entwickl
 Alle Analysen sind in zwei zentralen Skripten zusammengefasst: train_test_models_ma.R und descriptive_analysis_ma.R.
 Des Weiteren existieren Skripte zum Einladen von Paketen und Funktionen sowie ein Python-Skript zur Erstellung eines neuronalen Netzes.
 
-Die Skripte enhalten aufgrund einer Sperrvermerks auf der Masterarbeit keine Daten. Sie sind somit die reproduzierbar. 
+Die Skripte enhalten aufgrund einer Sperrvermerks auf der Masterarbeit keine Daten. Sie sind somit nicht reproduzierbar. 
 
 Im Folgenden wird eine kurze Übersicht über die in den Skripten enthaltenen Analysen gegeben:
   1. descriptive_analysis_ma.R:
