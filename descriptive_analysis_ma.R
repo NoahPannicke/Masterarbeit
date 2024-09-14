@@ -2,7 +2,6 @@
 #' des Produktaffinitätsmodells 
 rm(list = ls())
 # Laden der Funktionen 
-source("Code/churn_specific_functions.R")
 source("Code/da_functions.R")
 
 options(warn=-1, error=NULL)
