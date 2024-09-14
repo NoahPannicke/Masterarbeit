@@ -2,7 +2,7 @@
 #' des Produktaffinitätsmodells 
 rm(list = ls())
 # Laden der Funktionen 
-source("Code/da_functions.R")
+source("Code/functions_ma.R")
 
 options(warn=-1, error=NULL)
 memory.limit(size=1000000)
